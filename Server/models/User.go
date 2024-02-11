@@ -6,4 +6,5 @@ type User struct {
     Email    string `json:"email" gorm:"unique"`
     Password []byte
     IsAdmin  bool   `json:"isAdmin"`
+	Projects []Project `json:"projects" gorm:"foreignKey:UserID"` 
 }

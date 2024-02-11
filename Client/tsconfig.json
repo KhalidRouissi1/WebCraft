@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "next.config.js"  ],
+, "next.config.js", "helper/myPlugin.js"  ],
   "exclude": [
     "node_modules"
   ]

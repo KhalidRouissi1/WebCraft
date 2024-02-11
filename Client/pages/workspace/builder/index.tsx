@@ -73,14 +73,14 @@ export default function Home() {
    
     <div className="row" style={{ minHeight: "100svh" }}>
       
-      <div id="layers" className="column" style={{ flexBasis: "500px" }}>
+      <div id="layers" className="column" style={{ flexBasis: "200px" }}>
         Layers
         <div id="layers-container"></div>
       </div>
 
-      <div className="column editor-clm">
+    <div className="column editor-clm">
         <div id="blocks"></div>
-        <div id="gjs2" style={{ overflow: "hidden" }}></div>
+        <div id="gjs2"></div>
       </div>
 
       <div id="style-manager" className="column" style={{ flexBasis: "500px" }}>

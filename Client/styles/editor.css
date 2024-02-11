@@ -36,25 +36,23 @@
 
 .editor-clm {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .gjs-blocks-c {
    justify-content: center;
-   height: 50px;
+   height: 100px;
+   margin-bottom: 300px;
 }
 
 .gjs-block {
   width: auto;
-  font-size: 10px; /* Increased font size */
+  font-size: 3px; 
   justify-content: center;
   height: auto;
   min-height: auto;
 }
 
-.gjs-block-label {
-    display: none;
-}
 
 .gjs-cv-canvas {
     width: 100%;
@@ -84,4 +82,9 @@
 .gjs-four-color,
 .gjs-four-color-h:hover {
   color: #1e9e3a;
+}
+
+.gjs-block-label{
+  display: block;
+  width: 100px;
 }

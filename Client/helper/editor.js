@@ -1,15 +1,15 @@
 import blockBasic from "grapesjs-blocks-basic";
 import FormPlugin from "grapesjs-plugin-forms";
-
+import grapesjsTailwind from "grapesjs-tailwind"; // Corrected import statement
 const editorSettings = {
   deviceManager: {
     devices: [{
         name: 'Desktop',
-        width: '', // default size
+        width: '', 
       }, {
         name: 'Mobile',
-        width: '320px', // this value will be used on canvas width
-        widthMedia: '480px', // this value will be used in CSS @media
+        width: '320px', 
+        widthMedia: '480px', 
     }]
   },
 
@@ -18,14 +18,16 @@ const editorSettings = {
   container: "#gjs2",
   height: "100%",
   fromElement: true,
-  plugins: [blockBasic, FormPlugin],
+  plugins: [blockBasic,FormPlugin,grapesjsTailwind],
   layerManager: {
     appendTo: "#layers-container",
   },
+  
   blockManager: {
     appendTo: "#blocks",
   },
   styleManager: {
+    open:false,
     appendTo: "#style-manager-container",
     sectors: [
       {

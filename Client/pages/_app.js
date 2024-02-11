@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
     <>
       {!excludeHeader && <Header />}
       <Component {...pageProps} />
-      {!excludeHeader && <Footer />}
+      {/* {!excludeHeader && <Footer />} */}
     </>
   );
 }
