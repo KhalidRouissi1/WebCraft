@@ -28,6 +28,26 @@ func Register(c *fiber.Ctx) error {
 		Email:    data["email"],
 		Password: password,
 	}
+
+
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
+		Issuer:    strconv.Itoa(int(user.Id)),
+		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), // 1 day
+	})
+
+	token, err := claims.SignedString([]byte(SecretKey))
+	if err != nil {
+		return err // Return the error here
+	}
+	cookie := fiber.Cookie{
+		Name:     "jwt",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+
+	}
+	c.Cookie(&cookie)
+
+	
 	database.DB.Create(&user)
 	return c.JSON(user)
 }

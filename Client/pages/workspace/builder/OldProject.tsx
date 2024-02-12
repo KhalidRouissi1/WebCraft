@@ -25,7 +25,9 @@ export default function OldProject() {
 
     fetchProject();
   }, [id]);
-
+  if(project.data == ""){
+    localStorage.clear()
+  }
   return (
     <>
       {id && Object.keys(project).length > 0 && (

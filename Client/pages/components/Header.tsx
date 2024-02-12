@@ -3,31 +3,31 @@ import Image from 'next/image';
 import Link from 'next/link';
 function Header() {
   return (
-    <div className="w-full">
-      <nav className="bg-white shadow-lg">
-        <div className="md:flex items-center justify-between py-2 px-8 md:px-12">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-gray-800 md:text-3xl">
-              <Link href="/"><Image width={200} height={200}  src="/logo.png" alt={''} /></Link>
-            </div>
-            <div className="md:hidden">
-              <button type="button" className="block text-gray-800 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
-                <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                  <path className="hidden" d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z" />
-                  <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row hidden md:block -mx-2">
-            <a href="#" className="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Home</a>
-            <a href="#" className="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">About</a>
-            <a href="#" className="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Contact</a>
-          </div>
-        </div>
-      </nav>
+    <header className=''>
+                    <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 bg-[#025B70] shadow-sm">
+                        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                            <Link href="/" className="flex items-center">
+                              <Image 
+                              src={"/logo.png"}
+                              width={200}
+                              height={70}
+                               alt='logo of webcraft'
+                               />
+                            </Link>
+                            <div className="flex items-center lg:order-2">
+                                <Link href="/auth/login" className="text-gray-800 dark:text-white hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 ">Log in</Link>
+                                <a href="#" className="text-white bg-gray-800 hover:bg-gray-800 focus:ring-4 focus:bg-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 ">Get started</a>
+                                <button data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
+                                    <span className="sr-only">Open main menu</span>
+                                </button>
+                            </div>
+                            <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                       
+                            </div>
+                        </div>
+                    </nav>
+                </header>
       
-    </div>
   );
 }
 

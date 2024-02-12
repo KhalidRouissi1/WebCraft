@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Link from "next/link"
 import GuardLayout from '../components/layout';
 import axios from 'axios';
-import NewProject from "./builder/NewProject"
 import OldProject from "./builder/OldProject"
 
 
@@ -33,7 +32,6 @@ const Index = () => {
           withCredentials: true
         }
       );
-      console.log("Project created:", res.data);
       setResData(res.data);
       // Optionally, you can handle success response here
     } catch (error) {
@@ -46,7 +44,6 @@ const Index = () => {
   const handlePassResult = async () => {
     await postData();
     setProjectCreated(true)
-    console.log("Result data:", resData);
   };
 
 
@@ -61,7 +58,6 @@ const Index = () => {
       
         const data = await response.data;
         setProjects(data);
-        console.log(data)
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -69,25 +65,27 @@ const Index = () => {
 
     fetchProjects();
   }, []); 
-  console.log(projects)
 
   return (
 
 
     <GuardLayout>
-    <div className="h-screen flex flex-col">
+    <div className="h-[80vh] flex flex-col">
       <div className="flex-1 bg-gray-200 flex items-center justify-center">
-        <div className="w-3/4 h-3/4 bg-white border border-gray-400 rounded-lg shadow-lg">
-          {hoveredImage && (
-            <img src={hoveredImage} alt="Hovered image" className="w-full h-full object-contain" />
-          )}
-          {!hoveredImage && (
-            <h1 className="flex justify-center items-center mt-[20%] text-9xl">New Project</h1>
-          )}
-        </div>
+      <div
+              className="relative w-48 h-64 bg-gray-500 rounded-lg flex items-center justify-center cursor-pointer"
+       
+              onClick={
+                ()=>{
+                setPopup(true)
+                }
+              }
+            >
+              + New Project
+            </div>
       </div>
       <div className="flex justify-center bg-gray-300 py-4">
-        <div className="flex space-x-4">
+        <div className="flex space-x-4" key={1}>
             
             {
               popup && (
@@ -133,40 +131,23 @@ const Index = () => {
             }
            
 
-            <div
-              className="relative w-48 h-64 bg-gray-500 rounded-lg"
-              onMouseEnter={() =>
-                setHoveredImage(`https://cdn.discordapp.com/attachments/1138848747665768499/1204907862074327132/image.png`)
-              }
-              onClick={
-                ()=>{
-                setPopup(true)
+        
+
+           {projects.map((project) => (
+            <Link key={project.id} href={`workspace/builder/OldProject?id=${project.id}`}>
+              <div
+                className="relative w-48 h-64 bg-gray-500 rounded-lg flex justify-center items-center"
+                onMouseEnter={() =>
+                  setHoveredImage(`https://cdn.discordapp.com/attachments/1138848747665768499/1204907862074327132/image.png`)
                 }
-              }
-            >
-              New Project
-            </div>
-
-
-            {projects.map((project)=>(
-                <Link href={`workspace/builder/OldProject?id=${project.id}`} >
-                      <div 
-                      key={project.id}
-                      className="relative w-48 h-64 bg-gray-500 rounded-lg"
-                      onMouseEnter={() =>
-                        setHoveredImage(`https://cdn.discordapp.com/attachments/1138848747665768499/1204907862074327132/image.png`)
-                      }
-                      onClick={
-                        ()=>{
-                        handleClick("")
-                        }
-                      }
-                      >
-                      {project.name}
-                      </div>
-                </Link>
-            ))}
-
+                onClick={() => {
+                  handleClick("");
+                }}
+              >
+                {project.name}
+              </div>
+            </Link>
+          ))}
         
 
         </div>

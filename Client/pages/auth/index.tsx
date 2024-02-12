@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Index = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Index = () => {
       console.log("Im theree")
       router.push("/workspace");
     } catch (error) {
-      console.error('Login errorrrrrrrrrrrrrrr:', error);
+      console.error('Login erro is :', error);
     }
   };
 
@@ -37,7 +38,7 @@ const Index = () => {
           <div className="bg-black opacity-20 inset-0 z-0"></div>
           <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
             <h1 className="text-white font-bold text-4xl font-sans">Welcome into your</h1>
-            <p className="text-white mt-1">NEXT Web Crafter</p>
+            <p className="text-white mt-1">Web Crafter</p>
             <div className="flex justify-center lg:justify-start mt-6">
              
             </div>
@@ -103,15 +104,13 @@ const Index = () => {
                 Login
               </button>
               <div className="flex justify-between mt-4">
-                <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
-                  Forgot Password ?
-                </span>
-                <a
-                  href="#"
+         
+                <Link
+                  href="auth/register"
                   className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
                 >
                   Don't have an account yet?
-                </a>
+                </Link>
               </div>
             </form>
           </div>
