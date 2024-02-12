@@ -1,10 +1,10 @@
 package database
 
 import (
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"webcraft/models"
 
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 	var DB *gorm.DB

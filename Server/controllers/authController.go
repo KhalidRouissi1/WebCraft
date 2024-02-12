@@ -1,13 +1,15 @@
 package controllers
 
 import (
-	"github.com/dgrijalva/jwt-go/v4"
-	"github.com/gofiber/fiber/v2"
-	"golang.org/x/crypto/bcrypt"
+	"net/http"
 	"strconv"
 	"time"
 	"webcraft/database"
 	"webcraft/models"
+
+	"github.com/dgrijalva/jwt-go/v4"
+	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const SecretKey = "secret"
@@ -67,8 +69,7 @@ func Login(c *fiber.Ctx) error {
 		Name:     "jwt",
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
-		HTTPOnly: false,
-		SameSite: "None", // Adjust as needed
+
 	}
 	c.Cookie(&cookie)
 	
@@ -113,4 +114,45 @@ func Logout(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "success",
 	})
+}
+
+
+
+
+
+func GetUserProjects(c *fiber.Ctx) error {
+    userID,err := GetUserIDFromCookie(c)
+	if err !=nil{
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthenticated"})
+
+	}
+    var projects []models.Project
+    if err := database.DB.Where("user_id = ?", userID).Find(&projects).Error; err != nil {
+        return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch user projects"})
+    }
+
+    return c.JSON(projects)
+}
+
+
+func GetUserIDFromCookie(c *fiber.Ctx) (uint, error) {
+    cookie := c.Cookies("jwt")
+
+    token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+        return []byte(SecretKey), nil
+    })
+
+    if err != nil {
+        return 0, err
+    }
+
+    claims := token.Claims.(*jwt.StandardClaims)
+    
+    // Parse userID from string to uint
+    userID, err := strconv.ParseUint(claims.Issuer, 10, 64)
+    if err != nil {
+        return 0, err
+    }
+
+    return uint(userID), nil
 }
