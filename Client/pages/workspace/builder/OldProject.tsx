@@ -30,8 +30,7 @@ export default function OldProject() {
     <>
       {id && Object.keys(project).length > 0 && (
         <Editor
-          projectID={project.id}
-          data={project.data}
+          id={project.id}
         />
       )}
     </>

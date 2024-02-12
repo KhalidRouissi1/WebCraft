@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import grapesjs from "grapesjs";
 import editorSettings from "../../../helper/editor";
-
-export default function Editor({data}) {
+import axios from "axios";
+export default function Editor({id}) {
   useEffect(() => {
     // @ts-ignore
     const editor = grapesjs.init(editorSettings );
@@ -11,19 +11,42 @@ export default function Editor({data}) {
       el: '.panel__top',
     });
         // @ts-ignore
-
-        editor.on('storage:store', function(e) {
-
-
-          console.log('Content saved:', e);
-      });
+        editor.on("storage:store", async function (e) {
+          try {
+            // Send PUT request to your API to save the content
+            const res = await axios.put(`http://127.0.0.1:8000/api/project/${id}`, {
+              data: JSON.stringify(editor.getComponents()),
+            });
+            console.log("Content saved:", res.data);
     
-
-      editor.on('load', function(e) {
-        localStorage.clear()
+            // Optionally, you can handle response data here
+          } catch (error) {
+            console.error("Error saving content:", error);
+            // Optionally, you can handle error response here
+          }
+        });
+    
+        // Event listener for loading content
+        editor.on("load", async function (e) {
+          try {
+            // Send GET request to your API to retrieve the content
+            const res = await axios.get(`http://127.0.0.1:8000/api/project/${id}`);
+            console.log("Content loaded:", res.data);
         
-        console.log('Content loded:', e);
-    });
+            if (res.data.data) {
+              // Set the retrieved content to the editor
+              editor.setComponents(JSON.parse(res.data.data));
+            } else {
+              console.log("No content found in the API response");
+            }
+        
+            // Clear local storage
+            localStorage.clear();
+          } catch (error) {
+            console.error("Error loading content:", error);
+          }
+        });
+    
     
 
 
