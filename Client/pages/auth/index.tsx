@@ -2,34 +2,43 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import GuardLayout from "../components/layout";
 
 const Index = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/login', {
-        "email":email,
-        "password" : password
-      }, {
-        withCredentials: true // Include cookies in the request
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include cookies in the request
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
       });
-      console.log("Im theree")
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      console.log("Login successful");
       router.push("/workspace");
     } catch (error) {
-      console.error('Login erro is :', error);
+      console.error("Login error:", error);
     }
   };
-
   return (
     <>
       <style jsx>{`
         .login_img_section {
           background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-            url(https://media.discordapp.net/attachments/1145626642430042132/1204048083672113162/WEBBCCraft.png?ex=65d35029&is=65c0db29&hm=15c83a60de998f8827ab600f8c920200c91c0fac6ec916b7e8b947ea62b6dcd2&=&format=webp&quality=lossless&width=1193&height=671) center center;
+            url("/WEBBCCraft.png") center center;
         }
       `}</style>
 
@@ -37,18 +46,25 @@ const Index = () => {
         <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center">
           <div className="bg-black opacity-20 inset-0 z-0"></div>
           <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
-            <h1 className="text-white font-bold text-4xl font-sans">Welcome into your</h1>
+            <h1 className="text-white font-bold text-4xl font-sans">
+              Welcome into your
+            </h1>
             <p className="text-white mt-1">Web Crafter</p>
-            <div className="flex justify-center lg:justify-start mt-6">
-             
-            </div>
+            <div className="flex justify-center lg:justify-start mt-6"></div>
           </div>
         </div>
         <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
           <div className="w-full px-8 md:px-32 lg:px-24">
-            <form className="bg-white rounded-md shadow-2xl p-5" onSubmit={handleSubmit}>
-              <h1 className="text-gray-800 font-bold text-2xl mb-1">Hello Again!</h1>
-              <p className="text-sm font-normal text-gray-600 mb-8">Welcome Back</p>
+            <form
+              className="bg-white rounded-md shadow-2xl p-5"
+              onSubmit={handleSubmit}
+            >
+              <h1 className="text-gray-800 font-bold text-2xl mb-1">
+                Hello Again!
+              </h1>
+              <p className="text-sm font-normal text-gray-600 mb-8">
+                Welcome Back
+              </p>
               <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -97,14 +113,17 @@ const Index = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+
               <button
                 type="submit"
-                className="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+                className="relative inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
-                Login
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+                  {true ? "Login Or Register?" : "Get Started"}
+                </span>
               </button>
               <div className="flex justify-between mt-4">
-         
                 <Link
                   href="auth/register"
                   className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"

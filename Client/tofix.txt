@@ -1,0 +1,11 @@
+1- better landing page design 
+
+2- type controlling from the fornt end 
+
+3- logout button
+
+
+4- talk about the project in Linkedin
+
+5- make docs
+dosent work on spider engine 

@@ -1,64 +1,187 @@
-import Link from "next/link";
+import Image from "next/image";
+import { Button } from "./components/ui/button";
+import Navbar from "./components/gloabal/NavBar";
+import { ContainerScroll } from "./components/container-scroll-animation";
+import { InfiniteMovingCards } from "./components/gloabal/infinite-moving-cards";
+import { HeroParallax } from "./components/gloabal/connect-parallax";
+import { LampComponent } from "./components/gloabal/lamp-component";
+import { CardBody, CardContainer, CardItem } from "./components/gloabal/3dCard";
+
+import { clients, products } from "../lib/constans";
+import { CheckIcon } from "lucide-react";
+import { ThemeProvider } from "./providers/theme-provider";
 
 export default function Home() {
- 
   return (
-    <>
-  
-
-
-
-  <div className="w-screen h-screen overflow-hidden relative before:block before:absolute before:bg-black before:h-full before:w-full before:top-0 before:left-0 before:z-10 before:opacity-70">
-        <img src="https://media.discordapp.net/attachments/1138848747665768499/1206704700980854794/Landing.png?ex=65dcfa54&is=65ca8554&hm=7f46096acac86949e76bed83820940a9961a2b700d4fff73b8e5fbcb1b1c10a3&=&format=webp&quality=lossless&width=1440&height=669" className="absolute top-0 left-0 min-h-full ob" alt="" />
-        <div className="relative z-20 max-w-screen-lg mx-auto grid grid-cols-12 h-full items-center">
-          <div className="col-span-6">
-            <span className="uppercase text-white text-xs font-bold mb-2 block">NO CODE!</span>
-            <h1 className="text-white font-extrabold text-5xl mb-8">Build your website Custom templates, Custom Style, Images,Videos with no code</h1>
-            <p className="text-stone-100  text-base mb-8">
-              and more... so what are you waiting for
-            </p>
-            <Link href={"auth"} className="mt-8 text-white uppercase py-4 text-base font-light px-10 border border-white hover:bg-white hover:bg-opacity-10">Get started</Link>
+    <main>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <Navbar />
+        <section className="h-screen w-full bg-neutral-950 rounded-md !overflow-visible relative flex flex-col items-center antialiased">
+          <div className="absolute inset-0  h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_35%,#222_100%)]"></div>
+          <div className="flex flex-col mt-[-100px] md:mt-[-50px]">
+            <ContainerScroll
+              titleComponent={
+                <div className="flex items-center justify-center flex-col">
+                  <Button
+                    size={"lg"}
+                    className="p-8 mb-8 md:mb-0 text-2xl w-full sm:w-fit border-t-2 rounderd-full border-[#4D4D4D] bg-[#1F1F1F1F] hover:bg-white group transition-all flex items-center justify-center gap-4 hover:shadow-xl hover:shadow-neutral-500 duration-500"
+                  >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-neutral-500 to-neutral-600 md:text-center font-sans group-hover:bg-gradient-to-r group-hover:from-black group-hover:to-black:">
+                      Start For Free Today
+                    </span>
+                  </Button>
+                  <h1 className="text-5xl md:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-600 font-sans font-bold">
+                    Create Stunning Websites with WebCrafter
+                  </h1>
+                </div>
+              }
+            />
           </div>
-        </div>
-      </div>
-      <div className="bg-[#BFA888] py-20">
-        <div className="max-w-screen-lg mx-auto flex justify-between items-center">
-          <div className="max-w-xl">
-            <h2 className="font-black text-sky-950 text-3xl mb-4">No code is cool</h2>
-          </div>
-        </div>
-      </div>
+        </section>
+        <InfiniteMovingCards
+          className="md:mt-[18rem] mt-[-100px]"
+          items={clients}
+          direction="right"
+          speed="slow"
+        />
 
-    
-      <section className="bg-white dark:bg-gray-900">
-                    <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-                        <div className="mr-auto place-self-center lg:col-span-7">
-                            <h1 className="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">Your time is gold</h1>
-                            <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Because of that we develope this tool to help you creating websites with no code.</p>
-                   
-                        </div>
-                        <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup" />
-                        </div>
-                    </div>
-                </section>
-
-
-      <div className="py-12 relative overflow-hidden bg-white">
-        <div className="grid grid-cols-2 max-w-screen-lg mx-auto">
-          <div className="w-full flex flex-col items-end pr-16">
-            <h2 className="text-[#64618C] font-bold text-2xl max-w-xs text-right mb-12 mt-10">Drag and drop</h2>
-            <div className="h-full mt-auto overflow-hidden relative">
-              <img src="https://blogs.articulate.com/rapid-elearning/wp-content/uploads/sites/7/2016/07/drag-drop-350.png" className="h-full w-full object-contain" alt="" />
-            </div>
-          </div>
-          <div className="py-20 bg-slate-100 relative before:absolute before:h-full before:w-screen before:bg-sky-950 before:top-0 before:left-0">
-            <div className="relative z-20 pl-12">
-              <h2 className="text-[#f7d0b6] font-black text-5xl leading-snug mb-10">Build just <br />with drag and drop</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+        <section>
+          <HeroParallax products={products}></HeroParallax>
+        </section>
+        <section className="mt-[-500px]">
+          <LampComponent />
+          <CardContainer className="inter-var flex flex-wrap items-center justify-center flex-col md:flex-row gap-8 -mt-72 ">
+            <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-[#E2CBFF] dark:border-white/[0.2] border-black/[0.1] w-full md:!w-[350px] h-auto rounded-xl p-6 border">
+              <CardItem
+                translateZ="50"
+                className="text-xl font-blod text-neutral-600 dark:text-white"
+              >
+                Basic Plan
+                <h2 className="text-6xl">$0</h2>
+              </CardItem>
+              <CardItem
+                translateZ="60"
+                className="text-xl font-blod text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300"
+              >
+                Get started with essential features. Upgrade as you grow.
+                <ul className="my-4 flex flex-col gap-2">
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Basic website builder
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Limited templates
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Basic support
+                  </li>
+                </ul>
+              </CardItem>
+              <div className="flex justify-between items-center mt-8">
+                <CardItem
+                  translateZ="20"
+                  className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
+                >
+                  Get Started Now
+                </CardItem>
+                <CardItem
+                  translateZ={20}
+                  as="button"
+                  className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                >
+                  Try now →
+                </CardItem>
+              </div>
+            </CardBody>
+            <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-[#E2CBFF] dark:border-white/[0.2] border-black/[0.1] w-full md:!w-[350px] h-auto rounded-xl p-6 border">
+              <CardItem
+                translateZ="50"
+                className="text-xl font-blod text-neutral-600 dark:text-white"
+              >
+                Pro Plan
+                <h2 className="text-6xl">$29</h2>
+              </CardItem>
+              <CardItem
+                translateZ="60"
+                className="text-xl font-blod text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300"
+              >
+                Unlock advanced features and support for growing businesses.
+                <ul className="my-4 flex flex-col gap-2">
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Advanced website builder
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Access to all templates
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Priority support
+                  </li>
+                </ul>
+              </CardItem>
+              <div className="flex justify-between items-center mt-8">
+                <CardItem
+                  translateZ="20"
+                  className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
+                >
+                  Get Started Now
+                </CardItem>
+                <CardItem
+                  translateZ={20}
+                  as="button"
+                  className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                >
+                  Try now →
+                </CardItem>
+              </div>
+            </CardBody>
+            <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-neutral-500/[0.1] dark:bg-black dark:border-[#E2CBFF] dark:border-white/[0.2] border-black/[0.1] w-full md:!w-[350px] h-auto rounded-xl p-6 border">
+              <CardItem
+                translateZ="50"
+                className="text-xl font-blod text-neutral-600 dark:text-white"
+              >
+                Unlimited Plan
+                <h2 className="text-6xl">$99</h2>
+              </CardItem>
+              <CardItem
+                translateZ="60"
+                className="text-xl font-blod text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300"
+              >
+                For businesses that need unlimited capabilities and support.
+                <ul className="my-4 flex flex-col gap-2">
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Full website builder suite
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> Unlimited templates
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckIcon /> 24/7 premium support
+                  </li>
+                </ul>
+              </CardItem>
+              <div className="flex justify-between items-center mt-8">
+                <CardItem
+                  translateZ="20"
+                  className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
+                >
+                  Get Started Now
+                </CardItem>
+                <CardItem
+                  translateZ={20}
+                  as="button"
+                  className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
+                >
+                  Try now →
+                </CardItem>
+              </div>
+            </CardBody>
+          </CardContainer>
+        </section>
+      </ThemeProvider>
+    </main>
   );
 }

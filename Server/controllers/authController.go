@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -30,22 +31,7 @@ func Register(c *fiber.Ctx) error {
 	}
 
 
-	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		Issuer:    strconv.Itoa(int(user.Id)),
-		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), // 1 day
-	})
 
-	token, err := claims.SignedString([]byte(SecretKey))
-	if err != nil {
-		return err // Return the error here
-	}
-	cookie := fiber.Cookie{
-		Name:     "jwt",
-		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24),
-
-	}
-	c.Cookie(&cookie)
 
 	
 	database.DB.Create(&user)
@@ -79,6 +65,8 @@ func Login(c *fiber.Ctx) error {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(user.Id)),
 		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), // 1 day
+		
+		
 	})
 
 	token, err := claims.SignedString([]byte(SecretKey))
@@ -88,16 +76,21 @@ func Login(c *fiber.Ctx) error {
 	cookie := fiber.Cookie{
 		Name:     "jwt",
 		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24),
-
+		Expires:  time.Now().Add(time.Hour * 24),	
+		HTTPOnly: false,
+		Path : "/",
+		SameSite: "None", // Set SameSite attribute to "None"
 	}
 	c.Cookie(&cookie)
-	
+
 	return c.JSON(fiber.Map{"Message": "Success Login"})
 }
+
+
+
 func User(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
-
+	fmt.Println(cookie)
 	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(SecretKey), nil
 	})
@@ -126,7 +119,9 @@ func Logout(c *fiber.Ctx) error {
 		Name:     "jwt",
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
-		HTTPOnly: true,
+		HTTPOnly: false,
+		SameSite: "None", 
+
 	}
 
 	c.Cookie(&cookie)
@@ -137,10 +132,8 @@ func Logout(c *fiber.Ctx) error {
 }
 
 
-
-
-
 func GetUserProjects(c *fiber.Ctx) error {
+
     userID,err := GetUserIDFromCookie(c)
 	if err !=nil{
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthenticated"})
@@ -157,6 +150,7 @@ func GetUserProjects(c *fiber.Ctx) error {
 
 func GetUserIDFromCookie(c *fiber.Ctx) (uint, error) {
     cookie := c.Cookies("jwt")
+	fmt.Println("The Cookie is: ", cookie)
 
     token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
         return []byte(SecretKey), nil

@@ -1,46 +1,30 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function GuardLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const router = useRouter();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getUser();
-            
-            } catch (err) {
-                console.error(err);
-                if (err.response && err.response.status === 401) {
-                    router.push("/auth/login");
-                }
-            }
-        };
-
-        fetchData();
-    }, [router]);
-
-    return (
-        <main>
-            {children}
-        </main>
-    );
-}
-
-async function getUser() {
-    try {
-        const response = await axios.get("http://127.0.0.1:8000/api/user",
-        {
-            withCredentials:true,
-        });
-        return response.data;
-    } catch (err) {
-        console.log(err)
-        throw err
-    }
+  //   const router = useRouter();
+  //   const [name, setName] = useState("");
+  //   const [idUser, setIdUser] = useState("");
+  //   useEffect(() => {
+  //     (async () => {
+  //       const respose = await fetch("http://localhost:8000/api/user", {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Accept: "application/json",
+  //         },
+  //         credentials: "include", // Include cookies in the request
+  //       });
+  //       const content = await respose.json();
+  //       setName(content.name);
+  //       setIdUser(content.id);
+  //     })();
+  //   });
+  //   console.log(name);
+  return <main>{children}</main>;
 }
