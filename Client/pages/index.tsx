@@ -2,14 +2,15 @@ import Image from "next/image";
 import { Button } from "./components/ui/button";
 import Navbar from "./components/gloabal/NavBar";
 import { ContainerScroll } from "./components/container-scroll-animation";
-import { InfiniteMovingCards } from "./components/gloabal/infinite-moving-cards";
 import { HeroParallax } from "./components/gloabal/connect-parallax";
 import { LampComponent } from "./components/gloabal/lamp-component";
 import { CardBody, CardContainer, CardItem } from "./components/gloabal/3dCard";
 
-import { clients, products } from "../lib/constans";
+import { products } from "../lib/constans";
 import { CheckIcon } from "lucide-react";
 import { ThemeProvider } from "./providers/theme-provider";
+import Link from "next/link";
+import Footer from "./components/gloabal/Footer";
 
 export default function Home() {
   return (
@@ -36,19 +37,13 @@ export default function Home() {
                     </span>
                   </Button>
                   <h1 className="text-5xl md:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-600 font-sans font-bold">
-                    Create Stunning Websites with WebCrafter
+                    Create Websites with WebCrafter
                   </h1>
                 </div>
               }
             />
           </div>
         </section>
-        <InfiniteMovingCards
-          className="md:mt-[18rem] mt-[-100px]"
-          items={clients}
-          direction="right"
-          speed="slow"
-        />
 
         <section>
           <HeroParallax products={products}></HeroParallax>
@@ -86,7 +81,7 @@ export default function Home() {
                   translateZ="20"
                   className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
                 >
-                  Get Started Now
+                  <Link href="/auth">Get Started Now</Link>
                 </CardItem>
                 <CardItem
                   translateZ={20}
@@ -127,7 +122,7 @@ export default function Home() {
                   translateZ="20"
                   className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
                 >
-                  Get Started Now
+                  <Link href="/auth">Get Started Now</Link>
                 </CardItem>
                 <CardItem
                   translateZ={20}
@@ -168,7 +163,7 @@ export default function Home() {
                   translateZ="20"
                   className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-blod"
                 >
-                  Get Started Now
+                  <Link href="/auth">Get Started Now</Link>
                 </CardItem>
                 <CardItem
                   translateZ={20}
@@ -182,6 +177,8 @@ export default function Home() {
           </CardContainer>
         </section>
       </ThemeProvider>
+      <div className="mb-20"></div>
+      <Footer />
     </main>
   );
 }

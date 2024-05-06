@@ -1,33 +1,34 @@
 import blockBasic from "grapesjs-blocks-basic";
 import FormPlugin from "grapesjs-plugin-forms";
-import grapesjsTailwind from "grapesjs-tailwind"; // Corrected import statement
+import grapesjsTailwind from "grapesjs-tailwind";
 const editorSettings = {
   deviceManager: {
-    devices: [{
-        name: 'Desktop',
-        width: '', 
-      }, {
-        name: 'Mobile',
-        width: '320px', 
-        widthMedia: '480px', 
-    }]
+    devices: [
+      {
+        name: "Desktop",
+        width: "",
+      },
+      {
+        name: "Mobile",
+        width: "320px",
+        widthMedia: "480px",
+      },
+    ],
   },
-
-
 
   container: "#gjs2",
   height: "100%",
   fromElement: true,
-  plugins: [blockBasic,FormPlugin,grapesjsTailwind],
+  plugins: [blockBasic, FormPlugin, grapesjsTailwind],
   layerManager: {
     appendTo: "#layers-container",
   },
-  
+
   blockManager: {
     appendTo: "#blocks",
   },
   styleManager: {
-    open:false,
+    open: false,
     appendTo: "#style-manager-container",
     sectors: [
       {
@@ -107,20 +108,23 @@ const editorSettings = {
   panels: {
     defaults: [
       {
-        id: 'panel-devices',
-        el: '.panel__devices',
-        buttons: [{
-            id: 'device-desktop',
-            label: 'D',
-            command: 'set-device-desktop',
+        id: "panel-devices",
+        el: ".panel__devices",
+        buttons: [
+          {
+            id: "device-desktop",
+            label: "D",
+            command: "set-device-desktop",
             active: true,
             togglable: false,
-          }, {
-            id: 'device-mobile',
-            label: 'M',
-            command: 'set-device-mobile',
+          },
+          {
+            id: "device-mobile",
+            label: "M",
+            command: "set-device-mobile",
             togglable: false,
-        }],
+          },
+        ],
       },
       {
         id: "layers",

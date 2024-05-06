@@ -1,5 +1,3 @@
-
-
 .gjs-pn-panel {
   position: relative;
 }
@@ -10,23 +8,24 @@
   align-items: stretch;
   flex-wrap: nowrap;
 }
+
 .gjs-sm-icon {
   font-size: 16px;
 }
-.gjs-layer-name{
-  font-size: 16px;
 
+.gjs-layer-name,
+.gjs-sm-input-holder select option {
+  font-size: 16px;
 }
-.gjs-layer-name--no-edit{
+
+.gjs-layer-name--no-edit {
   height: fit-content;
 }
-.gjs-radio-item-label{
-  font-size: 14px;
-}
-.gjs-sm-input-holder select option  {
-  font-size: 14px;
 
+.gjs-radio-item-label {
+  font-size: 14px;
 }
+
 .column {
   min-height: 75px;
   flex-grow: 1;
@@ -39,43 +38,39 @@
   flex-direction: row;
 }
 
-.gjs-blocks-c {
-   justify-content: center;
-   height: 100px;
-   margin-bottom: 300px;
-}
-
 .gjs-block {
   width: auto;
-  font-size: 3px; 
+  font-size: 3px;
   justify-content: center;
   height: auto;
   min-height: auto;
 }
 
-
 .gjs-cv-canvas {
-    width: 100%;
-    height: 100%;
-    top: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
 }
 
 .gjs-blocks-cs {
-    border: 1px solid rgba(182, 59, 59, 0.3);
-    border-top: none;
+  border: 1px solid rgba(182, 59, 59, 0.3);
+  border-top: none;
 }
 
-/* Theming */
 .gjs-one-bg {
-    background-color: #025B70; /* Updated */
+  background-color: #025b70;
+}
+
+#blocks {
+  background-color: #025b70;
 }
 
 .gjs-two-color {
-  color: #BFA888; /* Updated */
+  color: #bfa888;
 }
 
 .gjs-three-bg {
-  background-color: #d41010; /* Updated */
+  background-color: #d41010;
   color: white;
 }
 
@@ -84,7 +79,33 @@
   color: #1e9e3a;
 }
 
-.gjs-block-label{
+.gjs-block-label {
   display: block;
   width: 100px;
+}
+
+.gjs-blocks-c {
+  width: 350px;
+  overflow: auto;
+  max-height: 600px;
+  justify-content: center;
+}
+
+.gjs-block {
+  width: 120px;
+}
+
+.editor-clm {
+  width: calc(100vw - 750px);
+  overflow: hidden;
+}
+
+#layers {
+  width: 200px;
+  overflow-y: auto;
+}
+
+#style-manager {
+  width: 500px;
+  overflow-y: auto;
 }

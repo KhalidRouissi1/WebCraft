@@ -1,83 +1,133 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import axios from "axios";
 
-const Index = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
   const router = useRouter();
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Reset errors
+    setEmailError(false);
+    setPasswordError(false);
+    setUsernameError(false);
+
+    // Email validation
+    if (!emailRegex.test(email)) {
+      setEmailError(true);
+      return;
+    }
+    // Password validation
+    if (password.length < 8) {
+      setPasswordError(true);
+      return;
+    }
+    // Username validation
+    if (username.trim() === "") {
+      setUsernameError(true);
+      return;
+    }
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/register', {
-        "name": name,
-        "email": email,
-        "password": password
-      }, {
-        withCredentials: true
-      });
-      console.log("Im theree")
-      router.push("/workspace");
+      // Your registration logic using Axios
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/register",
+        {
+          name: name,
+          email: email,
+          password: password,
+          username: username,
+        },
+        { withCredentials: true }
+      );
+      console.log("Registration successful");
+      router.push("/auth");
     } catch (error) {
-      console.error('Login errorrrrrrrrrrrrrrr:', error);
+      console.error("Registration error:", error);
     }
   };
 
   return (
     <>
-      <style jsx>{`
-        .login_img_section {
-          background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-            url(https://media.discordapp.net/attachments/1145626642430042132/1204048083672113162/WEBBCCraft.png?ex=65d35029&is=65c0db29&hm=15c83a60de998f8827ab600f8c920200c91c0fac6ec916b7e8b947ea62b6dcd2&=&format=webp&quality=lossless&width=1193&height=671) center center;
-        }
-      `}</style>
+      <div className="h-screen flex bg-gray-900 text-white">
+        <style jsx>{`
+          .register_img_section {
+            background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
+              url("/WEBBCCraft.png") center center;
+          }
+        `}</style>
 
-<div className="h-screen flex">
-        <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center">
+        <div className="hidden lg:flex w-full lg:w-1/2 register_img_section justify-around items-center">
           <div className="bg-black opacity-20 inset-0 z-0"></div>
-          <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
-            <h1 className="text-white font-bold text-4xl font-sans">Welcome into your</h1>
-            <p className="text-white mt-1">Web Crafter</p>
-            <div className="flex justify-center lg:justify-start mt-6">
-             
-            </div>
+          <div className="w-full mx-auto px-20 flex flex-col items-center space-y-6">
+            <h1 className="text-white font-bold text-4xl font-sans">
+              Welcome to Your Web Crafter
+            </h1>
+            <p className="text-white mt-1">Create Your Account</p>
+            <div className="flex justify-center lg:justify-start mt-6"></div>
           </div>
         </div>
-        <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
+        <div className="flex w-full lg:w-1/2 justify-center items-center bg-gray-900 space-y-8">
           <div className="w-full px-8 md:px-32 lg:px-24">
-            <form className="bg-white rounded-md shadow-2xl p-5" onSubmit={handleSubmit}>
-              <h1 className="text-gray-800 font-bold text-2xl mb-3 ">Sign Up</h1>
-              <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <circle cx="12" cy="8" r="4" />
-                <circle cx="12" cy="16" r="4" />
-              </svg>
-                <input
-                  id="name"
-                  className="pl-2 w-full outline-none border-none"
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
+            <form
+              className="bg-gray-900 rounded-md shadow-2xl p-5"
+              onSubmit={handleSubmit}
+            >
+              <h1 className="font-bold text-2xl mb-1">Sign Up</h1>
+              <p className="text-gray-300 mb-8">Create your account</p>
+              <div className="flex items-center border-2 mb-2 py-2 px-3 rounded-2xl bg-gray-800">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-gray-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  alt="Username Icon"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 14l9-5-9-5-9 5 9 5z"
+                  />
+                </svg>
+                <input
+                  id="username"
+                  className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
+                    usernameError ? "border-red-500" : ""
+                  }`}
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                    setUsernameError(false); // Reset error when user changes input
+                  }}
+                />
+              </div>
+              {usernameError && (
+                <span className="text-red-500 text-xs">
+                  Please enter a username
+                </span>
+              )}
+
+              <div className="flex items-center border-2 mb-2 py-2 px-3 rounded-2xl bg-gray-800">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  alt="Email Icon"
                 >
                   <path
                     strokeLinecap="round"
@@ -88,20 +138,32 @@ const Index = () => {
                 </svg>
                 <input
                   id="email"
-                  className="pl-2 w-full outline-none border-none"
+                  className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
+                    emailError ? "border-red-500" : ""
+                  }`}
                   type="email"
                   name="email"
                   placeholder="Email Address"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError(false); // Reset error when user changes input
+                  }}
                 />
               </div>
-              <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
+              {emailError && (
+                <span className="text-red-500 text-xs">
+                  Please enter a valid email address
+                </span>
+              )}
+
+              <div className="flex items-center border-2 mb-2 py-2 px-3 rounded-2xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-gray-400"
                   viewBox="0 0 20 20"
                   fill="currentColor"
+                  alt="Password Icon"
                 >
                   <path
                     fillRule="evenodd"
@@ -110,27 +172,41 @@ const Index = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 w-full outline-none border-none"
+                  className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
+                    passwordError ? "border-red-500" : ""
+                  }`}
                   type="password"
                   name="password"
                   id="password"
-                  placeholder="Password"
+                  placeholder="Password (min. 8 characters)"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordError(false); // Reset error when user changes input
+                  }}
                 />
               </div>
+              {passwordError && (
+                <span className="text-red-500 text-xs ">
+                  Password must be at least 8 characters long
+                </span>
+              )}
+
               <button
                 type="submit"
-                className="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+                className="relative m-5 inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
-                Sign Up
+                <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+                  Register
+                </span>
               </button>
               <div className="flex justify-between mt-4">
-                <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
-                  <Link href={"/auth/login"}>
-                  Already have an account? Login
-                  </Link>
-                </span>
+                <Link href="/auth/login">
+                  <button className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">
+                    Already have an account? Login here
+                  </button>
+                </Link>
               </div>
             </form>
           </div>
@@ -140,4 +216,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Register;

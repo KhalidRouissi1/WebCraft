@@ -3,21 +3,39 @@ import "grapesjs/dist/css/grapes.min.css";
 import "../styles/editor.css";
 import "../styles/global.css";
 import "./index.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const excludeHeaderRoutes = ["/builder"];
+  const [userData, setUserData] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check if the current route should exclude the header
-  const excludeHeader = excludeHeaderRoutes.includes(router.pathname);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:8000/api/user", {
+          withCredentials: true,
+        });
+        setUserData(res.data);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setIsLoggedIn(false);
+      }
+    };
 
-  return (
-    <>
-      {/* {!excludeHeader && <Header />} */}
-      <Component {...pageProps} />
-      {/* {!excludeHeader && <Footer />}  */}
-    </>
-  );
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (
+      Object.keys(userData).length !== 0 &&
+      (router.pathname === "/auth" || router.pathname === "/auth/register")
+    ) {
+      router.push("/");
+    }
+  }, [userData, router.pathname]);
+
+  return <Component {...pageProps} />;
 }

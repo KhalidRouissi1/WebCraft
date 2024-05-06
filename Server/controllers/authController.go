@@ -30,10 +30,6 @@ func Register(c *fiber.Ctx) error {
 		Password: password,
 	}
 
-
-
-
-	
 	database.DB.Create(&user)
 	return c.JSON(user)
 }
@@ -65,8 +61,7 @@ func Login(c *fiber.Ctx) error {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(user.Id)),
 		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), // 1 day
-		
-		
+
 	})
 
 	token, err := claims.SignedString([]byte(SecretKey))
@@ -76,17 +71,15 @@ func Login(c *fiber.Ctx) error {
 	cookie := fiber.Cookie{
 		Name:     "jwt",
 		Value:    token,
-		Expires:  time.Now().Add(time.Hour * 24),	
+		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: false,
-		Path : "/",
+		Path:     "/",
 		SameSite: "None", // Set SameSite attribute to "None"
 	}
 	c.Cookie(&cookie)
 
 	return c.JSON(fiber.Map{"Message": "Success Login"})
 }
-
-
 
 func User(c *fiber.Ctx) error {
 	cookie := c.Cookies("jwt")
@@ -111,17 +104,13 @@ func User(c *fiber.Ctx) error {
 	return c.JSON(user)
 }
 
-
-
-
 func Logout(c *fiber.Ctx) error {
 	cookie := fiber.Cookie{
 		Name:     "jwt",
 		Value:    "",
 		Expires:  time.Now().Add(-time.Hour),
 		HTTPOnly: false,
-		SameSite: "None", 
-
+		SameSite: "None",
 	}
 
 	c.Cookie(&cookie)
@@ -131,42 +120,40 @@ func Logout(c *fiber.Ctx) error {
 	})
 }
 
-
 func GetUserProjects(c *fiber.Ctx) error {
 
-    userID,err := GetUserIDFromCookie(c)
-	if err !=nil{
+	userID, err := GetUserIDFromCookie(c)
+	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"error": "unauthenticated"})
 
 	}
-    var projects []models.Project
-    if err := database.DB.Where("user_id = ?", userID).Find(&projects).Error; err != nil {
-        return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch user projects"})
-    }
+	var projects []models.Project
+	if err := database.DB.Where("user_id = ?", userID).Find(&projects).Error; err != nil {
+		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch user projects"})
+	}
 
-    return c.JSON(projects)
+	return c.JSON(projects)
 }
 
-
 func GetUserIDFromCookie(c *fiber.Ctx) (uint, error) {
-    cookie := c.Cookies("jwt")
+	cookie := c.Cookies("jwt")
 	fmt.Println("The Cookie is: ", cookie)
 
-    token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
-        return []byte(SecretKey), nil
-    })
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(SecretKey), nil
+	})
 
-    if err != nil {
-        return 0, err
-    }
+	if err != nil {
+		return 0, err
+	}
 
-    claims := token.Claims.(*jwt.StandardClaims)
-    
-    // Parse userID from string to uint
-    userID, err := strconv.ParseUint(claims.Issuer, 10, 64)
-    if err != nil {
-        return 0, err
-    }
+	claims := token.Claims.(*jwt.StandardClaims)
 
-    return uint(userID), nil
+	// Parse userID from string to uint
+	userID, err := strconv.ParseUint(claims.Issuer, 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint(userID), nil
 }

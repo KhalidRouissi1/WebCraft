@@ -1,22 +1,40 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import GuardLayout from "../components/layout";
 
 const Index = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [loginError, setLoginError] = useState(""); // State to track login error message
   const router = useRouter();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Reset errors and login error
+    setEmailError(false);
+    setPasswordError(false);
+    setLoginError("");
+
+    // Email validation
+    if (!emailRegex.test(email)) {
+      setEmailError(true);
+      return;
+    }
+    // Password validation
+    if (password.length < 8) {
+      setPasswordError(true);
+      return;
+    }
     try {
       const response = await fetch("http://127.0.0.1:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", // Include cookies in the request
+        credentials: "include",
         body: JSON.stringify({
           email: email,
           password: password,
@@ -31,19 +49,23 @@ const Index = () => {
       router.push("/workspace");
     } catch (error) {
       console.error("Login error:", error);
+      setLoginError("Invalid email or password");
     }
   };
+
   return (
     <>
-      <style jsx>{`
-        .login_img_section {
-          background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-            url("/WEBBCCraft.png") center center;
-        }
-      `}</style>
+      <div className={`h-screen flex bg-gray-900 text-white`}>
+        <style jsx>{`
+          .login_img_section {
+            background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
+              url("/WEBBCCraft.png") center center;
+          }
+        `}</style>
 
-      <div className="h-screen flex">
-        <div className="hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center">
+        <div
+          className={`hidden lg:flex w-full lg:w-1/2 login_img_section justify-around items-center`}
+        >
           <div className="bg-black opacity-20 inset-0 z-0"></div>
           <div className="w-full mx-auto px-20 flex-col items-center space-y-6">
             <h1 className="text-white font-bold text-4xl font-sans">
@@ -53,19 +75,17 @@ const Index = () => {
             <div className="flex justify-center lg:justify-start mt-6"></div>
           </div>
         </div>
-        <div className="flex w-full lg:w-1/2 justify-center items-center bg-white space-y-8">
+        <div
+          className={`flex w-full lg:w-1/2 justify-center items-center bg-gray-900 space-y-8`}
+        >
           <div className="w-full px-8 md:px-32 lg:px-24">
             <form
-              className="bg-white rounded-md shadow-2xl p-5"
+              className={`bg-gray-900 rounded-md shadow-2xl p-5`}
               onSubmit={handleSubmit}
             >
-              <h1 className="text-gray-800 font-bold text-2xl mb-1">
-                Hello Again!
-              </h1>
-              <p className="text-sm font-normal text-gray-600 mb-8">
-                Welcome Back
-              </p>
-              <div className="flex items-center border-2 mb-8 py-2 px-3 rounded-2xl">
+              <h1 className={`font-bold text-2xl mb-1`}>Hello Again!</h1>
+              <p className={`text-gray-300 mb-8`}>Welcome Back</p>
+              <div className="flex items-center border-2 mb-2 py-2 px-3 rounded-2xl bg-gray-800">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-gray-400"
@@ -82,15 +102,27 @@ const Index = () => {
                 </svg>
                 <input
                   id="email"
-                  className="pl-2 w-full outline-none border-none"
+                  className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
+                    emailError ? "border-red-500" : ""
+                  }`}
                   type="email"
                   name="email"
                   placeholder="Email Address"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setEmailError(false); // Reset error when user changes input
+                    setLoginError(""); // Reset login error when user changes input
+                  }}
                 />
               </div>
-              <div className="flex items-center border-2 mb-12 py-2 px-3 rounded-2xl">
+              {emailError && (
+                <span className="text-red-500 text-xs">
+                  Please enter a valid email address
+                </span>
+              )}
+
+              <div className="flex items-center border-2 mb-2 py-2 px-3 rounded-2xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-gray-400"
@@ -104,23 +136,38 @@ const Index = () => {
                   />
                 </svg>
                 <input
-                  className="pl-2 w-full outline-none border-none"
+                  className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
+                    passwordError ? "border-red-500" : ""
+                  }`}
                   type="password"
                   name="password"
                   id="password"
-                  placeholder="Password"
+                  placeholder="Password (min. 8 characters)"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setPasswordError(false); // Reset error when user changes input
+                    setLoginError(""); // Reset login error when user changes input
+                  }}
                 />
               </div>
+              {passwordError && (
+                <span className="text-red-500 text-xs ">
+                  Password must be at least 8 characters long
+                </span>
+              )}
+
+              {loginError && (
+                <span className="text-red-500 text-xs">{loginError}</span>
+              )}
 
               <button
                 type="submit"
-                className="relative inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+                className="relative m-5 inline-flex h-12 w-full overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
               >
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                 <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-                  {true ? "Login Or Register?" : "Get Started"}
+                  {"Login Or Register?"}
                 </span>
               </button>
               <div className="flex justify-between mt-4">
