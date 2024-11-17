@@ -1,95 +1,99 @@
-import blockBasic from "grapesjs-blocks-basic";
-import FormPlugin from "grapesjs-plugin-forms";
-import grapesjsTailwind from "grapesjs-tailwind";
+import blockBasic from 'grapesjs-blocks-basic';
+import FormPlugin from 'grapesjs-plugin-forms';
+import grapesjsTailwind from 'grapesjs-tailwind';
+/**
+ * This object has all the settings for the editor, element and plugins
+ */
+
 const editorSettings = {
   deviceManager: {
     devices: [
       {
-        name: "Desktop",
-        width: "",
+        name: 'Desktop',
+        width: '',
       },
       {
-        name: "Mobile",
-        width: "320px",
-        widthMedia: "480px",
+        name: 'Mobile',
+        width: '320px',
+        widthMedia: '480px',
       },
     ],
   },
 
-  container: "#gjs2",
-  height: "100%",
+  container: '#gjs2',
+  height: '100%',
   fromElement: true,
   plugins: [blockBasic, FormPlugin, grapesjsTailwind],
   layerManager: {
-    appendTo: "#layers-container",
+    appendTo: '#layers-container',
   },
 
   blockManager: {
-    appendTo: "#blocks",
+    appendTo: '#blocks',
   },
   styleManager: {
     open: false,
-    appendTo: "#style-manager-container",
+    appendTo: '#style-manager-container',
     sectors: [
       {
-        name: "General",
+        name: 'General',
         open: false,
         buildProps: [
-          "float",
-          "display",
-          "position",
-          "top",
-          "right",
-          "left",
-          "bottom",
+          'float',
+          'display',
+          'position',
+          'top',
+          'right',
+          'left',
+          'bottom',
         ],
       },
       {
-        name: "Dimension",
+        name: 'Dimension',
         open: false,
         buildProps: [
-          "width",
-          "height",
-          "max-width",
-          "min-height",
-          "margin",
-          "padding",
+          'width',
+          'height',
+          'max-width',
+          'min-height',
+          'margin',
+          'padding',
         ],
       },
       {
-        name: "Typography",
+        name: 'Typography',
         open: false,
         buildProps: [
-          "font-family",
-          "font-size",
-          "font-weight",
-          "letter-spacing",
-          "color",
-          "line-height",
-          "text-align",
-          "text-shadow",
+          'font-family',
+          'font-size',
+          'font-weight',
+          'letter-spacing',
+          'color',
+          'line-height',
+          'text-align',
+          'text-shadow',
         ],
       },
       {
-        name: "Decorations",
+        name: 'Decorations',
         open: false,
         buildProps: [
-          "border-radius-c",
-          "background-color",
-          "border-radius",
-          "border",
-          "box-shadow",
-          "background",
+          'border-radius-c',
+          'background-color',
+          'border-radius',
+          'border',
+          'box-shadow',
+          'background',
         ],
       },
       {
-        name: "Extra",
+        name: 'Extra',
         open: false,
-        buildProps: ["opacity", "transition", "perspective", "transform"],
+        buildProps: ['opacity', 'transition', 'perspective', 'transform'],
         properties: [
           {
-            type: "slider",
-            property: "opacity",
+            type: 'slider',
+            property: 'opacity',
             defaults: 1,
             step: 0.01,
             max: 1,
@@ -100,51 +104,51 @@ const editorSettings = {
     ],
   },
   selectorManager: {
-    appendTo: "#selectors-container",
+    appendTo: '#selectors-container',
   },
   traitManager: {
-    appendTo: "#traits-container",
+    appendTo: '#traits-container',
   },
   panels: {
     defaults: [
       {
-        id: "panel-devices",
-        el: ".panel__devices",
+        id: 'panel-devices',
+        el: '.panel__devices',
         buttons: [
           {
-            id: "device-desktop",
-            label: "D",
-            command: "set-device-desktop",
+            id: 'device-desktop',
+            label: 'D',
+            command: 'set-device-desktop',
             active: true,
             togglable: false,
           },
           {
-            id: "device-mobile",
-            label: "M",
-            command: "set-device-mobile",
+            id: 'device-mobile',
+            label: 'M',
+            command: 'set-device-mobile',
             togglable: false,
           },
         ],
       },
       {
-        id: "layers",
-        el: "#layers",
+        id: 'layers',
+        el: '#layers',
         resizable: {
           tc: 0,
           cr: 1,
           bc: 0,
-          keyWidth: "flex-basis",
+          keyWidth: 'flex-basis',
         },
       },
       {
-        id: "styles",
-        el: "#style-manager",
+        id: 'styles',
+        el: '#style-manager',
         resizable: {
           tc: 0,
           cr: 0,
           cl: 1,
           bc: 0,
-          keyWidth: "flex-basis",
+          keyWidth: 'flex-basis',
         },
       },
     ],

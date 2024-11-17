@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const Index = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [loginError, setLoginError] = useState(""); // State to track login error message
+  const [loginError, setLoginError] = useState(''); // State to track login error message
   const router = useRouter();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,7 +16,7 @@ const Index = () => {
     // Reset errors and login error
     setEmailError(false);
     setPasswordError(false);
-    setLoginError("");
+    setLoginError('');
 
     // Email validation
     if (!emailRegex.test(email)) {
@@ -29,12 +29,12 @@ const Index = () => {
       return;
     }
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
+      const response = await fetch('http://127.0.0.1:8000/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
         body: JSON.stringify({
           email: email,
           password: password,
@@ -42,14 +42,14 @@ const Index = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error('Login failed');
       }
 
-      console.log("Login successful");
-      router.push("/workspace");
+      console.log('Login successful');
+      router.push('/workspace');
     } catch (error) {
-      console.error("Login error:", error);
-      setLoginError("Invalid email or password");
+      console.error('Login error:', error);
+      setLoginError('Invalid email or password');
     }
   };
 
@@ -59,7 +59,7 @@ const Index = () => {
         <style jsx>{`
           .login_img_section {
             background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-              url("/WEBBCCraft.png") center center;
+              url('/WEBBCCraft.png') center center;
           }
         `}</style>
 
@@ -103,7 +103,7 @@ const Index = () => {
                 <input
                   id="email"
                   className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
-                    emailError ? "border-red-500" : ""
+                    emailError ? 'border-red-500' : ''
                   }`}
                   type="email"
                   name="email"
@@ -112,7 +112,7 @@ const Index = () => {
                   onChange={(e) => {
                     setEmail(e.target.value);
                     setEmailError(false); // Reset error when user changes input
-                    setLoginError(""); // Reset login error when user changes input
+                    setLoginError(''); // Reset login error when user changes input
                   }}
                 />
               </div>
@@ -137,7 +137,7 @@ const Index = () => {
                 </svg>
                 <input
                   className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
-                    passwordError ? "border-red-500" : ""
+                    passwordError ? 'border-red-500' : ''
                   }`}
                   type="password"
                   name="password"
@@ -147,7 +147,7 @@ const Index = () => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                     setPasswordError(false); // Reset error when user changes input
-                    setLoginError(""); // Reset login error when user changes input
+                    setLoginError(''); // Reset login error when user changes input
                   }}
                 />
               </div>
@@ -167,7 +167,7 @@ const Index = () => {
               >
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                 <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-                  {"Login Or Register?"}
+                  {'Login Or Register?'}
                 </span>
               </button>
               <div className="flex justify-between mt-4">
@@ -175,7 +175,7 @@ const Index = () => {
                   href="auth/register"
                   className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
                 >
-                  Don't have an account yet?
+                  Don&apos;t have an account yet?
                 </Link>
               </div>
             </form>
