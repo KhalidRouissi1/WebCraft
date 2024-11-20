@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import axios from 'axios';
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
@@ -16,30 +16,25 @@ const Register = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Reset errors
     setEmailError(false);
     setPasswordError(false);
     setUsernameError(false);
 
-    // Email validation
     if (!emailRegex.test(email)) {
       setEmailError(true);
       return;
     }
-    // Password validation
     if (password.length < 8) {
       setPasswordError(true);
       return;
     }
-    // Username validation
-    if (username.trim() === "") {
+    if (username.trim() === '') {
       setUsernameError(true);
       return;
     }
     try {
-      // Your registration logic using Axios
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/register",
+        'http://127.0.0.1:8000/api/register',
         {
           name: name,
           email: email,
@@ -48,10 +43,10 @@ const Register = () => {
         },
         { withCredentials: true }
       );
-      console.log("Registration successful");
-      router.push("/auth");
+      console.log('Registration successful');
+      router.push('/auth');
     } catch (error) {
-      console.error("Registration error:", error);
+      console.error('Registration error:', error);
     }
   };
 
@@ -61,7 +56,7 @@ const Register = () => {
         <style jsx>{`
           .register_img_section {
             background: linear-gradient(rgba(2, 2, 2, 0.7), rgba(0, 0, 0, 0.7)),
-              url("/WEBBCCraft.png") center center;
+              url('/WEBBCCraft.png') center center;
           }
         `}</style>
 
@@ -102,7 +97,7 @@ const Register = () => {
                 <input
                   id="username"
                   className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
-                    usernameError ? "border-red-500" : ""
+                    usernameError ? 'border-red-500' : ''
                   }`}
                   type="text"
                   name="username"
@@ -139,7 +134,7 @@ const Register = () => {
                 <input
                   id="email"
                   className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
-                    emailError ? "border-red-500" : ""
+                    emailError ? 'border-red-500' : ''
                   }`}
                   type="email"
                   name="email"
@@ -173,7 +168,7 @@ const Register = () => {
                 </svg>
                 <input
                   className={`pl-2 w-full outline-none border-none bg-gray-800 text-white ${
-                    passwordError ? "border-red-500" : ""
+                    passwordError ? 'border-red-500' : ''
                   }`}
                   type="password"
                   name="password"
