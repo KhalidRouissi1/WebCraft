@@ -60,13 +60,13 @@ func Login(c *fiber.Ctx) error {
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(user.Id)),
-		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), // 1 day
+		ExpiresAt: jwt.At(time.Now().Add(time.Hour * 24)), 
 
 	})
 
 	token, err := claims.SignedString([]byte(SecretKey))
 	if err != nil {
-		return err // Return the error here
+		return err 
 	}
 	cookie := fiber.Cookie{
 		Name:     "jwt",
@@ -74,7 +74,7 @@ func Login(c *fiber.Ctx) error {
 		Expires:  time.Now().Add(time.Hour * 24),
 		HTTPOnly: false,
 		Path:     "/",
-		SameSite: "None", // Set SameSite attribute to "None"
+		SameSite: "None",
 	}
 	c.Cookie(&cookie)
 
@@ -149,7 +149,6 @@ func GetUserIDFromCookie(c *fiber.Ctx) (uint, error) {
 
 	claims := token.Claims.(*jwt.StandardClaims)
 
-	// Parse userID from string to uint
 	userID, err := strconv.ParseUint(claims.Issuer, 10, 64)
 	if err != nil {
 		return 0, err
